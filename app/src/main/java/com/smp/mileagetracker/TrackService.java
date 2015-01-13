@@ -1,11 +1,14 @@
 package com.smp.mileagetracker;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.support.v4.app.NotificationCompat;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -43,7 +46,25 @@ public class TrackService extends Service implements ConnectionCallbacks, Locati
         createLocationRequest();
         buildGoogleApiClient();
         mGoogleApiClient.connect();
+        startServiceForeground();
 
+    }
+    private static final int ONGOING_NOTIFICATION_ID = 345438731;
+    private void startServiceForeground()
+    {
+        Intent activityIntent = new Intent(this, TrackActivity.class);
+        activityIntent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+        PendingIntent aIntent = PendingIntent.getActivity(this, 0,
+                activityIntent, 0);
+        Notification notification = new NotificationCompat.Builder(this)
+                .setContentTitle(getText(R.string.notification_title))
+                .setContentText(getText(R.string.notification_message))
+                .setContentIntent(aIntent)
+                .setSmallIcon(R.drawable.ic_launcher)
+                .setOngoing(true)
+                .build();
+
+        startForeground(ONGOING_NOTIFICATION_ID, notification);
     }
 
     private void acquireWakeLock()
@@ -67,6 +88,7 @@ public class TrackService extends Service implements ConnectionCallbacks, Locati
         stopLocationUpdates();
         mGoogleApiClient.disconnect();
         wakeLock.release();
+        stopForeground(true);
         super.onDestroy();
 
     }

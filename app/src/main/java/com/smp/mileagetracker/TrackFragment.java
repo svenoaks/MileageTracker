@@ -1,5 +1,7 @@
 package com.smp.mileagetracker;
 
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -166,14 +168,18 @@ public class TrackFragment extends android.support.v4.app.Fragment implements Vi
     public void onPause()
     {
         EventBus.getDefault().unregister(this);
+
         super.onPause();
     }
+
+
 
     @Override
     public void onDestroy()
     {
         Intent intent = new Intent(getActivity(), TrackService.class);
         getActivity().stopService(intent);
+        EventBus.getDefault().removeStickyEvent(TrackInfoUpdateMessage.class);
         super.onDestroy();
     }
 

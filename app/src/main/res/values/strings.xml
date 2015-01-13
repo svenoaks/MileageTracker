@@ -31,5 +31,7 @@
     <string name="total_expense">Total Expense:</string>
     <string name="average_speed">Average Speed:</string>
     <string name="new_item">New item added to log.</string>
+    <string name="notification_title">Mileage Tracker running</string>
+    <string name="notification_message">Your miles are being recorded.</string>
 
 </resources>
