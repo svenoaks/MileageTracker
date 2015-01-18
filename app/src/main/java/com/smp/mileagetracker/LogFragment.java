@@ -45,7 +45,7 @@ public class LogFragment extends Fragment
     {
         Toast.makeText(getActivity(), getActivity()
                 .getResources().getString(R.string.new_item), Toast.LENGTH_LONG).show();
-        List<TrackInfoComplete> list = Utils.getTrackingList(getActivity());
+        List<TrackInfoComplete> list = TrackInfoComplete.listAll(TrackInfoComplete.class);
         mAdapter.updateList(list);
     }
     @Override
@@ -66,7 +66,7 @@ public class LogFragment extends Fragment
         mRecyclerView.setLayoutManager(mLayoutManager);
         //mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), null));
 
-        mAdapter = new LogAdapter(Utils.getTrackingList(getActivity()), getActivity());
+        mAdapter = new LogAdapter(TrackInfoComplete.listAll(TrackInfoComplete.class), getActivity());
         mRecyclerView.setAdapter(mAdapter);
         return rootView;
     }

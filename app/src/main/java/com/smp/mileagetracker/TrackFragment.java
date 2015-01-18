@@ -208,9 +208,8 @@ public class TrackFragment extends android.support.v4.app.Fragment implements Vi
                 finishedInfo.totalTime = last.totalTime;
                 finishedInfo.totalExpense = last.totalExpense;
 
-                ArrayList<TrackInfoComplete> log = Utils.getTrackingList(getActivity());
-                log.add(finishedInfo);
-                Utils.writeObjectToFile(getActivity(), Utils.LOG_FILE_NAME, log);
+                finishedInfo.save();
+
                 EventBus.getDefault().post(new NewLogItemEvent());
             }
         }
